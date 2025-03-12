@@ -1,0 +1,6 @@
+[submodule "Projects/brookframework"]
+	path = Projects/brookframework
+	url = https://github.com/risoflora/brookframework.git
+[submodule "Projects/DCPcrypt"]
+	path = Projects/DCPcrypt
+	url = https://github.com/SnakeDoctor/DCPcrypt.git

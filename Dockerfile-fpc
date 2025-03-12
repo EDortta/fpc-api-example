@@ -1,0 +1,52 @@
+
+FROM ubuntu:latest
+
+ENV DEBIAN_FRONTEND=noninteractive 
+
+RUN apt-get update && apt-get install -y \
+    wget sudo git curl unzip \
+    fp-compiler fpc-source \
+    libpq-dev libmysqlclient-dev firebird-dev
+
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    mysql-client \
+    firebird-dev \
+    sqlite3 \
+    libsqlite3-dev \
+    && apt-get clean
+
+RUN wget -qO /tmp/code-server.deb "https://github.com/coder/code-server/releases/download/v4.97.2/code-server_4.97.2_amd64.deb" && \
+    apt-get install -y /tmp/code-server.deb && \
+    rm /tmp/code-server.deb
+
+RUN apt install -y git fpc libssl-dev
+
+RUN apt install fp-utils
+
+RUN wget -qO /tmp/libsagui.tar.gz https://github.com/risoflora/libsagui/releases/download/v3.5.2/libsagui_tls-3.5.2-linux_amd64.tar.gz
+RUN mkdir -p /opt/libsagui
+RUN tar -xvzf /tmp/libsagui.tar.gz -C /opt/libsagui --strip-components=1
+RUN rm /tmp/libsagui.tar.gz
+RUN echo "Contents of /opt/libsagui:" && ls -lah /opt/libsagui
+RUN echo "Looking for libsagui.so.3..." && find /opt/libsagui -name "libsagui.so.3"
+RUN cp $(find /opt/libsagui -name "libsagui.so.3") /usr/lib/
+RUN ln -s /usr/lib/libsagui.so.3 /usr/lib/libsagui.so
+RUN echo "Final /usr/lib contents:" && ls -lah /usr/lib/
+RUN ldconfig
+
+RUN ls -lah /usr/lib/libsagui.so.3 && \
+    ldd /usr/lib/libsagui.so.3
+
+
+RUN useradd -m -s /bin/bash developer && \
+    echo 'developer:devpassword' | chpasswd && \
+    echo 'developer ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+WORKDIR /home/developer
+
+EXPOSE 8080
+
+USER developer
+
+CMD [ "code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/developer/Projects" ]

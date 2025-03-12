@@ -1,0 +1,16 @@
+services:
+  fpc-vscodium:
+    build:
+      context: .
+      dockerfile: Dockerfile-fpc
+    container_name: fpc-vscodium
+    restart: unless-stopped
+    ports:
+      - "8123:8080"
+      - "8321:8321"
+    volumes:
+      - ./Projects:/home/developer/Projects
+      - ./config/vscodium:/home/developer/.config
+      - ./config/fpc.cfg:/home/developer/.fpc.cfg
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
