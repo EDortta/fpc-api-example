@@ -12,5 +12,6 @@ services:
       - ./Projects:/home/developer/Projects
       - ./config/vscodium:/home/developer/.config
       - ./config/fpc.cfg:/home/developer/.fpc.cfg
+      - ./scripts:/home/developer/scripts
     environment:
       - DEBIAN_FRONTEND=noninteractive
