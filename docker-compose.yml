@@ -15,3 +15,14 @@ services:
       - ./scripts:/home/developer/scripts
     environment:
       - DEBIAN_FRONTEND=noninteractive
+  db:
+    image: percona:8.0
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - "6603:3306"
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=czyhnp
+

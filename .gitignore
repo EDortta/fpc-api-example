@@ -34,3 +34,6 @@
 .svn/
 .git/
 .hg/
+
+data/
+Projects/empresas/

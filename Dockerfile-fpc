@@ -22,7 +22,7 @@ RUN wget -qO /tmp/code-server.deb "https://github.com/coder/code-server/releases
 
 RUN apt install -y git fpc libssl-dev
 
-RUN apt install fp-utils
+RUN apt install -y fp-utils
 
 RUN wget -qO /tmp/libsagui.tar.gz https://github.com/risoflora/libsagui/releases/download/v3.5.2/libsagui_tls-3.5.2-linux_amd64.tar.gz
 RUN mkdir -p /opt/libsagui
@@ -37,6 +37,14 @@ RUN ldconfig
 
 RUN ls -lah /usr/lib/libsagui.so.3 && \
     ldd /usr/lib/libsagui.so.3
+
+RUN apt-get update && apt-get install -y \
+    dnsutils \
+    inetutils-ping \
+    jq \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
 
 
 RUN useradd -m -s /bin/bash developer && \
