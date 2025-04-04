@@ -23,7 +23,7 @@ services:
       - "6603:3306"
     volumes:
       - ./data/db:/var/lib/mysql
-      - ./config/mysql-disable-ssl.cnf:/etc/mysql/conf.d/disable-ssl.cnf:ro
       - ./config/create-common-user.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./config/mysql-disable-ssl.cnf:/etc/mysql/conf.d/disable-ssl.cnf:ro
     environment:
       - MYSQL_ROOT_PASSWORD=czyhnp
