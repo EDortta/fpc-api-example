@@ -1,9 +1,5 @@
 #!/bin/bash
 
-MYSQL_USER="root"
-MYSQL_PASS="czyhnp"
-MYSQL_HOST="db"
-
 MOCKDATA_DIR="./mockdata"
 
 echo "Checking and loading mock data into MySQL..."
@@ -42,7 +38,11 @@ for file in "$MOCKDATA_DIR"/*.json; do
     );"
 
     # Execute SQL
-    mysql --defaults-extra-file=./.my.cnf empresas_db -e "$sql" > /dev/null
+    mysql --defaults-extra-file=./.my.cnf empresas_db -e "$sql" 2> /dev/null
+    if [[ $? -ne 0 ]]; then
+      echo "Erro ao fazer $sql"
+      exit 100
+    fi
   done
 
   echo "Mock data inserted into '$table'."

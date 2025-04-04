@@ -83,10 +83,23 @@ echo "All Pascal libraries updated and .fpc.cfg configured."
 echo ""
 echo "Checking if 'empresas_db' exists inside MySQL..."
 
-mysql -u root -pczyhnp -h db -e "CREATE DATABASE IF NOT EXISTS empresas_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u dev-empresas -pdevpass123 -h db -e "CREATE DATABASE IF NOT EXISTS empresas_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 if [ $? -eq 0 ]; then
-  echo "Database 'empresas_db' ensured."
+    echo "Database 'empresas_db' ensured."
+
+    echo "Checking if table 'empresas' exists in 'empresas_db'..."
+
+    mysql -u dev-empresas -pdevpass123 -h db empresas_db -e "
+    CREATE TABLE IF NOT EXISTS \`empresas\` (
+    \`empresa_id\` char(48) COLLATE utf8mb4_unicode_ci NOT NULL,
+    \`cnpj\` varchar(18) COLLATE utf8mb4_unicode_ci NOT NULL,
+    \`nome_fantasia\` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    \`razao_social\` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    PRIMARY KEY (\`empresa_id\`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
+
+
 else
   echo "Failed to create or connect to MySQL inside container 'db'."
 fi
