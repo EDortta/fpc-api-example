@@ -35,5 +35,11 @@
 .git/
 .hg/
 
+.env
+
 data/
 Projects/empresas/
+
+**/*.sock
+**/*.pid
+**/*.log
