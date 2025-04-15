@@ -1,19 +1,21 @@
 #!/bin/bash
 set -e
 
-# Optional: define paths
-PROJECT_DIR="/home/developer/Projects"
-SCRIPTS_DIR="/home/developer/scripts"
-WATCHDOG="$SCRIPTS_DIR/watchdog.sh"
-VSCODE_CONFIG="/home/developer/.config"
+cd "$(dirname "$0")"
 
-# Launch watchdog in background
-if [ -x "$WATCHDOG" ]; then
-  echo "Starting watchdog..."
-  "$WATCHDOG" &
-else
-  echo "Watchdog script not found or not executable: $WATCHDOG"
+# Load .env file
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
 fi
+
+# Validate important paths
+if [ ! -d "$PROJECT_DIR" ]; then
+  echo "Error: PROJECT_DIR not found: $PROJECT_DIR"
+  exit 1
+fi
+
+echo "Starting watchdog..."
+/bin/bash "$WATCHDOG" &
 
 sudo chown -R developer:developer /home/developer/.config
 

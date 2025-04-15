@@ -62,8 +62,10 @@ USER developer
 RUN mkdir -p .config/code-server
 RUN chmod  -R 777 .config
 
+COPY .env /usr/local/bin/.env
+
 COPY entry-point.sh /usr/local/bin/entry-point.sh
-RUN chmod +x /usr/local/bin/entry-point.sh
+RUN sudo chmod +x /usr/local/bin/entry-point.sh
 
 # CMD [ "code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/developer/Projects" ]
 # CMD sudo chown -R developer:developer /home/developer/.config && \
