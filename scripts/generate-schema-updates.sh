@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd ~/Projects/comparer || exit 1
+cd ~/Projects/deployer || exit 1
+
+rsync -rva ~/Projects/empresas/.deployer-db/* ~/Projects/deployer/dump/
 
 if [ ! -d "venv" ]; then
   echo "Creating virtual environment..."

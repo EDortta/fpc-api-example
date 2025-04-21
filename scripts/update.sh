@@ -5,7 +5,7 @@ declare -A REPOS
 REPOS["brookframework"]="https://github.com/risoflora/brookframework.git"
 REPOS["DCPcrypt"]="https://github.com/SnakeDoctor/DCPcrypt.git"
 REPOS["zeoslib"]="https://github.com/frones/ZeosLib.git"
-REPOS["comparer"]="https://github.com/EDortta/database-structure-comparer.git"
+REPOS["deployer"]="https://github.com/EDortta/database-structure-comparer.git"
 
 # Define required -Fu and -Fi paths
 FU_PATHS=(
