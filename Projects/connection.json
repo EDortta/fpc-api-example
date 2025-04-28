@@ -1,0 +1,9 @@
+{
+    "host": "db",
+    "database": "empresas_db",
+    "user": "dev-empresas",
+    "password": "devpass123",
+    "port": 3306,
+    "protocol": "mysql",
+    "authentication": "MYSQL_NATIVE_PASSWORD"
+}
