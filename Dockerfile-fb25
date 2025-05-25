@@ -1,0 +1,32 @@
+FROM debian:11
+
+RUN apt update && apt install -y \
+    libncurses5 \
+    wget \
+    tar \
+    vim \
+    sudo
+
+RUN apt install -y procps bash    
+
+RUN mkdir -p /opt/firebird-installer
+RUN cd /opt/firebird-installer \
+    && wget https://github.com/FirebirdSQL/firebird/releases/download/R2_5_9/FirebirdCS-2.5.9.27139-0.amd64.tar.gz
+RUN cd /opt/firebird-installer \
+    && tar xvf FirebirdCS-2.5.9.27139-0.amd64.tar.gz \
+    && cd /opt/firebird-installer/FirebirdCS-2.5.9.27139-0.amd64 \
+    && echo -e "y\nczyhnp\nczyhnp" | ./install.sh
+
+RUN ln -s /opt/firebird /usr/lib/firebird
+
+COPY scripts/create-fb-sample-database.sql /tmp/create-fb-sample-database.sql
+
+RUN mkdir -p /opt/firebird/data/2.5/
+RUN sed -i 's/#(VERSION)/2.5/g' /tmp/create-fb-sample-database.sql
+RUN /opt/firebird/bin/isql -input /tmp/create-fb-sample-database.sql -user SYSDBA -password czyhnp
+
+EXPOSE 3050
+
+CMD ["/opt/firebird/bin/fbguard"]
+
+

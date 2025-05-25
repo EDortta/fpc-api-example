@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile-fpc
     container_name: fpc-vscodium
-    restart: unless-stopped
+    restart: on-failure:3
     ports:
       - "8123:8080"
       - "8321:8321"
@@ -18,7 +18,7 @@ services:
   db:
     image: percona:8.0
     container_name: db
-    restart: unless-stopped
+    restart: on-failure:3
     ports:
       - "6603:3306"
     volumes:
@@ -27,3 +27,43 @@ services:
       - ./config/mysql-disable-ssl.cnf:/etc/mysql/conf.d/disable-ssl.cnf:ro
     environment:
       - MYSQL_ROOT_PASSWORD=czyhnp
+  fb25:
+    build:
+      context: .
+      dockerfile: Dockerfile-fb25
+    container_name: fb25
+    restart: on-failure:3
+    ports:
+      - "3051:3050"
+    volumes:
+      - ./data/fb25:/var/lib/firebird/2.5/data
+    environment:
+      - FIREBIRD_USER=SYSDBA
+      - FIREBIRD_PASSWORD=czyhnp
+  fb30:
+    build:
+      context: .
+      dockerfile: Dockerfile-fb30
+    container_name: fb30
+    restart: on-failure:3
+    ports:
+      - "3052:3050"
+    volumes:
+      - ./data/fb30:/var/lib/firebird/3.0/data
+    environment:
+      - FIREBIRD_USER=SYSDBA
+      - FIREBIRD_PASSWORD=czyhnp
+  fb50:
+    build:
+      context: .
+      dockerfile: Dockerfile-fb50
+    container_name: fb50
+    restart: on-failure:3
+    ports:
+      - "3053:3050"
+    volumes:
+      - ./data/fb50:/var/lib/firebird/5.0/data
+    environment:
+      - FIREBIRD_USER=SYSDBA
+      - FIREBIRD_PASSWORD=czyhnp
+
