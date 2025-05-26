@@ -8,5 +8,11 @@
 #   --entrypoint /bin/bash \
 #   $(docker inspect --format='{{.Config.Image}}' fpc-vscodium)
 
-
-docker exec -it fpc-vscodium /bin/bash
+if [ -z $1 ]; then
+  echo "Usage: $0 <project>"
+  echo "  <project> belongs to one of these:"
+  b=`basename $(pwd)`
+  docker ps | grep $b | awk '{print $2}' | sed 's/'$b'-//' | awk '{print "  ", "  ", $0}'
+else 
+  docker exec -it $1 /bin/bash
+fi
