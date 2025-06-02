@@ -6,22 +6,54 @@ REPOS["brookframework"]="https://github.com/risoflora/brookframework.git"
 REPOS["DCPcrypt"]="https://github.com/SnakeDoctor/DCPcrypt.git"
 REPOS["zeoslib"]="https://github.com/frones/ZeosLib.git"
 REPOS["deployer"]="https://github.com/EDortta/database-structure-comparer.git"
+REPOS["indy"]="https://github.com/IndySockets/Indy.git"
+REPOS["libpascurl"]="https://github.com/isemenkov/libpascurl.git"
+REPOS["libpascurl"]="https://github.com/iLya2IK/libpascurl.git"
+REPOS["pascalutils"]="https://github.com/isemenkov/pascalutils"
+#REPOS["lNet"]="https://github.com/almindor/lnet.git"
 
 # Define required -Fu and -Fi paths
 FU_PATHS=(
+  "/home/developer/Projects/indy/Lib/Core/"
+  "/home/developer/Projects/indy/Lib/Protocols/"
+  "/home/developer/Projects/indy/Lib/System/"
+  "/home/developer/Projects/libpascurl/source"
+  "/home/developer/Projects/libpascurl/source/curl"
+  "/home/developer/Projects/libpascurl/source/curl/response"
+  "/home/developer/Projects/libpascurl/source/curl/session"
+  "/home/developer/Projects/libpascurl/source/curl/utils/"
+  "/home/developer/Projects/libpascurl/source/http/session/"
   "/home/developer/Projects/zeoslib/src"
   "/home/developer/Projects/zeoslib/src/component"
+  "/home/developer/Projects/zeoslib/src/core"
   "/home/developer/Projects/zeoslib/src/dbc"
+  "/home/developer/Projects/zeoslib/src/parsesql"
   "/home/developer/Projects/zeoslib/src/plain"
   "/home/developer/Projects/zeoslib/src/zcompat"
   "/home/developer/Projects/zeoslib/src/zcore"
-  "/home/developer/Projects/zeoslib/src/core"
-  "/home/developer/Projects/zeoslib/src/parsesql"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/fcl-db"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/fcl-net/"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/iconvenc/"  
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/libcurl"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/openssl/"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/rtl-extra/"
+  "/usr/share/fpcsrc/3.2.2/packages/fcl-process/src/"
+  "/usr/share/fpcsrc/3.2.2/packages/univint/src/"
 )
 
 FI_PATHS=(
   "/home/developer/Projects/zeoslib/src"
   "/home/developer/Projects/zeoslib/src/component"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/fcl-web/"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/hash/"
+  "/usr/lib/x86_64-linux-gnu/fpc/3.2.2/units/x86_64-linux/rtl/"
+  "/usr/share/fpcsrc/3.2.2/packages/"
+  "/usr/share/fpcsrc/3.2.2/packages/fcl-base/src/"
+  "/usr/share/fpcsrc/3.2.2/packages/fcl-process/src/"
+  "/usr/share/fpcsrc/3.2.2/packages/fcl-process/src/unix/"
+  "/usr/share/fpcsrc/3.2.2/packages/rtl-generics/src/"
+  "/usr/share/fpcsrc/3.2.2/packages/rtl-objpas/src/inc/"
 )
 
 FCL_DB_PATH=$(find /usr/lib -type d -name fcl-db 2>/dev/null | grep "units" | head -n 1)
@@ -30,6 +62,10 @@ FU_PATHS+=( "$FCL_DB_PATH" )
 FPC_CFG="/home/developer/.fpc.cfg"
 TEMP_DIR=$(mktemp -d)
 echo "Temporary directory created at: $TEMP_DIR"
+
+cd $TEMP_DIR
+wget https://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb
 
 sudo chmod 0777 /home/developer/Projects
 sudo chown -fR developer:developer /home/developer/Projects
@@ -49,6 +85,10 @@ for REPO_NAME in "${!REPOS[@]}"; do
   unzip -o "$TEMP_DIR/$REPO_NAME/$REPO_NAME.zip" -d "$REPO_NAME"
   rm -rf "$TEMP_DIR/$REPO_NAME"
 done
+
+cd ~/Projects/libpascurl
+git submodule update --init --recursive
+
 
 echo ""
 echo "Ensuring -Fu and -Fi paths exist in: $FPC_CFG"
@@ -76,6 +116,7 @@ for P in "${FI_PATHS[@]}"; do
   fi
 done
 
+sudo chmod 0777 /usr/share/fpcsrc/3.2.2/packages/fcl-process/src
 
 echo ""
 echo "All Pascal libraries updated and .fpc.cfg configured."

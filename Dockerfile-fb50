@@ -1,0 +1,27 @@
+FROM debian:12
+
+RUN apt-get update && apt-get upgrade && apt-get install -y sudo wget
+
+RUN wget -qO /tmp/firebird.tar.gz https://github.com/FirebirdSQL/firebird/releases/download/v5.0.2/Firebird-5.0.2.1613-0-linux-x64.tar.gz
+
+
+RUN cd /tmp/ && tar xvf /tmp/firebird.tar.gz
+
+RUN apt-get install -y libncurses5 libtommath1 bash
+
+RUN apt-get install -y libicu-dev
+
+RUN cd /tmp/Firebird-5.0.2.1613-0-linux-x64 && \
+    echo -e "y\nczyhnp\nczyhnp" | sudo ./install.sh
+
+COPY scripts/create-fb-sample-database.sql /tmp/create-fb-sample-database.sql
+
+RUN mkdir -p /opt/firebird/data/5.0/
+RUN sed -i 's/#(VERSION)/5.0/g' /tmp/create-fb-sample-database.sql
+RUN /opt/firebird/bin/isql -input /tmp/create-fb-sample-database.sql -user SYSDBA -password czyhnp
+
+EXPOSE 3050
+
+# ENTRYPOINT ["systemctl", "start", "firebird.service"]
+CMD ["/opt/firebird/bin/firebird", "-f"]
+
