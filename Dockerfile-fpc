@@ -2,6 +2,8 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive 
 
+RUN echo "185.125.190.83    security.ubuntu.com" >> /etc/hosts
+
 RUN apt-get update && apt-get install -y \
     wget sudo git curl unzip \
     fp-compiler fpc-source \
@@ -21,9 +23,10 @@ RUN wget -qO /tmp/code-server.deb "https://github.com/coder/code-server/releases
     apt-get install -y /tmp/code-server.deb && \
     rm /tmp/code-server.deb
 
-RUN apt install -y git fpc libssl-dev
+RUN apt-get install -y git fpc libssl-dev
 
-RUN apt install -y fp-utils
+RUN apt-get install -y fp-utils
+RUN apt-get install -y cron
 
 RUN wget -qO /tmp/libsagui.tar.gz https://github.com/risoflora/libsagui/releases/download/v3.5.2/libsagui_tls-3.5.2-linux_amd64.tar.gz
 RUN mkdir -p /opt/libsagui

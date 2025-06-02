@@ -1,6 +1,10 @@
 FROM debian:12
 
-RUN apt-get update && apt-get upgrade && apt-get install -y sudo wget
+RUN echo "185.125.190.83    security.ubuntu.com" >> /etc/hosts
+
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y sudo wget
+
+RUN apt install -y procps bash
 
 RUN wget -qO /tmp/firebird.tar.gz https://github.com/FirebirdSQL/firebird/releases/download/v5.0.2/Firebird-5.0.2.1613-0-linux-x64.tar.gz
 
