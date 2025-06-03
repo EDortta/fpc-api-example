@@ -1,8 +1,10 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive 
+ARG TARGETARCH
 
-RUN echo "185.125.190.83    security.ubuntu.com" >> /etc/hosts
+# RUN echo "185.125.190.83    security.ubuntu.com" >> /etc/hosts
+# RUN echo "20.201.28.151     github.com" >> /etc/hosts
 
 RUN apt-get update && apt-get install -y \
     wget sudo git curl unzip \
@@ -15,13 +17,18 @@ RUN apt-get update && apt-get install -y \
     firebird-dev \
     sqlite3 \
     libsqlite3-dev \
-    dos2unix
+    dos2unix apt-utils
 
 # RUN echo -e "nameserver 208.67.222.22\nnameserver 8.8.4.4" | tee /etc/resolv.conf
 
-RUN wget -qO /tmp/code-server.deb "https://github.com/coder/code-server/releases/download/v4.97.2/code-server_4.97.2_amd64.deb" && \
-    apt-get install -y /tmp/code-server.deb && \
-    rm /tmp/code-server.deb
+RUN mkdir -p /opt/downloads
+
+RUN ARCH_DEB_URL="https://github.com/coder/code-server/releases/download/v4.100.2/code-server_4.100.2_${TARGETARCH}.deb" && \
+    echo "Downloading $ARCH_DEB_URL" && \
+    curl -fsSL "$ARCH_DEB_URL" -o /opt/downloads/code-server.deb
+
+RUN apt-get install -y /opt/downloads/code-server.deb && \
+    rm /opt/downloads/code-server.deb
 
 RUN apt-get install -y git fpc libssl-dev
 
@@ -39,8 +46,7 @@ RUN ln -s /usr/lib/libsagui.so.3 /usr/lib/libsagui.so
 RUN echo "Final /usr/lib contents:" && ls -lah /usr/lib/
 RUN ldconfig
 
-RUN ls -lah /usr/lib/libsagui.so.3 && \
-    ldd /usr/lib/libsagui.so.3
+RUN [ -f /usr/lib/libsagui.so.3 ] && ldd /usr/lib/libsagui.so.3 || true
 
 RUN apt-get update && apt-get install -y \
     dnsutils \

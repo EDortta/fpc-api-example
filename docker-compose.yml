@@ -3,6 +3,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-fpc
+      args:
+        TARGETARCH: ${TARGETARCH}
+    platform: ${OS_PLATFORM}
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
     container_name: fpc-vscodium
     restart: on-failure:3
     ports:
@@ -17,7 +24,12 @@ services:
       - DEBIAN_FRONTEND=noninteractive
   db:
     image: percona:8.0
+    platform: ${DB_PLATFORM}
     container_name: db
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
     restart: on-failure:3
     ports:
       - "6603:3306"
@@ -31,7 +43,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-fb25
+    platform: ${OS_PLATFORM}
     container_name: fb25
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
     restart: on-failure:3
     ports:
       - "3051:3050"
@@ -44,7 +61,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-fb30
+    platform: ${OS_PLATFORM}
     container_name: fb30
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
     restart: on-failure:3
     ports:
       - "3052:3050"
@@ -57,7 +79,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-fb50
+    platform: ${OS_PLATFORM}
     container_name: fb50
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
     restart: on-failure:3
     ports:
       - "3053:3050"
