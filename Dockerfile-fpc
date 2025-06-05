@@ -27,7 +27,7 @@ RUN ARCH_DEB_URL="https://github.com/coder/code-server/releases/download/v4.100.
     echo "Downloading $ARCH_DEB_URL" && \
     curl -fsSL "$ARCH_DEB_URL" -o /opt/downloads/code-server.deb
 
-RUN apt-get install -y /opt/downloads/code-server.deb &&
+RUN apt-get install -y /opt/downloads/code-server.deb && \
     rm /opt/downloads/code-server.deb
 
 RUN apt-get install -y git fpc libssl-dev
@@ -57,7 +57,7 @@ python3.11 \
     python3.11-venv \
     python3.11-dev
 RUN apt-get install -y \
-    curl &&
+    curl && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 RUN apt-get install -y \
     rsync
