@@ -14,11 +14,11 @@ RUN apt update -y && apt install -y \
 RUN apt install -y procps bash
 
 RUN mkdir -p /opt/firebird-installer
-RUN cd /opt/firebird-installer &&
+RUN cd /opt/firebird-installer && \
     wget https://github.com/FirebirdSQL/firebird/releases/download/R2_5_9/FirebirdCS-2.5.9.27139-0.amd64.tar.gz
-RUN cd /opt/firebird-installer &&
-    tar xvf FirebirdCS-2.5.9.27139-0.amd64.tar.gz &&
-    cd /opt/firebird-installer/FirebirdCS-2.5.9.27139-0.amd64 &&
+RUN cd /opt/firebird-installer && \
+    tar xvf FirebirdCS-2.5.9.27139-0.amd64.tar.gz && \
+    cd /opt/firebird-installer/FirebirdCS-2.5.9.27139-0.amd64 && \
     echo -e "y\nczyhnp\nczyhnp" | ./install.sh
 
 RUN ln -s /opt/firebird /usr/lib/firebird
