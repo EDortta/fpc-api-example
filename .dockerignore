@@ -1,0 +1,13 @@
+# Ignorar arquivos inúteis no build
+.git
+*.log
+*.sock
+node_modules
+__pycache__/
+*.pyc
+.DS_Store
+.vscode
+*.zip
+*.tar.gz
+data/
+Projects/code-server-ipc.sock
