@@ -1,6 +1,6 @@
 FROM debian:12
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 ARG TARGETARCH
 
 RUN apt update -y && apt install -y \
@@ -8,11 +8,12 @@ RUN apt update -y && apt install -y \
     wget \
     tar \
     procps \
-    bash
+    bash \
+    dos2unix apt-utils
 
 RUN mkdir -p /opt/firebird-installer
-RUN cd /opt/firebird-installer && \
-    wget https://github.com/FirebirdSQL/firebird/releases/download/v3.0.12/Firebird-3.0.12.33787-0.amd64.tar.gz && \
+RUN cd /opt/firebird-installer &&
+    wget https://github.com/FirebirdSQL/firebird/releases/download/v3.0.12/Firebird-3.0.12.33787-0.amd64.tar.gz &&
     tar xvf Firebird-3.0.12.33787-0.amd64.tar.gz
 
 RUN apt install -y libtommath-dev libtommath1 libicu-dev
@@ -20,16 +21,14 @@ RUN ln -s /opt/firebird /usr/lib/firebird
 RUN ln -s /usr/lib/x86_64-linux-gnu/libtommath.so.1.2.0 /usr/lib/libtommath.so.0
 RUN ln -s /usr/lib/x86_64-linux-gnu/libtommath.so.1.2.0 /usr/lib/libtommath.so
 
-RUN cd /opt/firebird-installer/Firebird-3.0.12.33787-0.amd64 && \
+RUN cd /opt/firebird-installer/Firebird-3.0.12.33787-0.amd64 &&
     echo -e "y\nczyhnp\nczyhnp" | ./install.sh
-
 
 COPY scripts/create-fb-sample-database.sql /tmp/create-fb-sample-database.sql
 
 RUN mkdir -p /opt/firebird/data/3.0/
 RUN sed -i 's/#(VERSION)/3.0/g' /tmp/create-fb-sample-database.sql
 RUN /opt/firebird/bin/isql -input /tmp/create-fb-sample-database.sql -user SYSDBA -password czyhnp
-
 
 EXPOSE 3050
 

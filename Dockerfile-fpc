@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 ARG TARGETARCH
 
 # RUN echo "185.125.190.83    security.ubuntu.com" >> /etc/hosts
@@ -23,11 +23,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /opt/downloads
 
-RUN ARCH_DEB_URL="https://github.com/coder/code-server/releases/download/v4.100.2/code-server_4.100.2_${TARGETARCH}.deb" && \
-    echo "Downloading $ARCH_DEB_URL" && \
+RUN ARCH_DEB_URL="https://github.com/coder/code-server/releases/download/v4.100.2/code-server_4.100.2_${TARGETARCH}.deb" &&
+    echo "Downloading $ARCH_DEB_URL" &&
     curl -fsSL "$ARCH_DEB_URL" -o /opt/downloads/code-server.deb
 
-RUN apt-get install -y /opt/downloads/code-server.deb && \
+RUN apt-get install -y /opt/downloads/code-server.deb &&
     rm /opt/downloads/code-server.deb
 
 RUN apt-get install -y git fpc libssl-dev
@@ -52,12 +52,12 @@ RUN apt-get update && apt-get install -y \
     dnsutils \
     inetutils-ping \
     jq
-RUN apt-get install -y \    
-    python3.11 \
+RUN apt-get install -y \ 
+python3.11 \
     python3.11-venv \
     python3.11-dev
 RUN apt-get install -y \
-    curl && \
+    curl &&
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 RUN apt-get install -y \
     rsync
@@ -66,28 +66,28 @@ RUN apt-get -y install libcurl4-openssl-dev
 RUN apt-get -y install fp-units-base
 
 # Enable OpenSSL legacy provider for PKCS12 compatibility
-RUN echo "openssl_conf = openssl_init" >> /etc/ssl/openssl.cnf && \
-    echo "" >> /etc/ssl/openssl.cnf && \
-    echo "[openssl_init]" >> /etc/ssl/openssl.cnf && \
-    echo "providers = provider_sect" >> /etc/ssl/openssl.cnf && \
-    echo "" >> /etc/ssl/openssl.cnf && \
-    echo "[provider_sect]" >> /etc/ssl/openssl.cnf && \
-    echo "default = default_sect" >> /etc/ssl/openssl.cnf && \
-    echo "legacy = legacy_sect" >> /etc/ssl/openssl.cnf && \
-    echo "" >> /etc/ssl/openssl.cnf && \
-    echo "[default_sect]" >> /etc/ssl/openssl.cnf && \
-    echo "activate = 1" >> /etc/ssl/openssl.cnf && \
-    echo "" >> /etc/ssl/openssl.cnf && \
-    echo "[legacy_sect]" >> /etc/ssl/openssl.cnf && \
-    echo "activate = 1" >> /etc/ssl/openssl.cnf
+RUN echo "openssl_conf = openssl_init" >>/etc/ssl/openssl.cnf &&
+    echo "" >>/etc/ssl/openssl.cnf &&
+    echo "[openssl_init]" >>/etc/ssl/openssl.cnf &&
+    echo "providers = provider_sect" >>/etc/ssl/openssl.cnf &&
+    echo "" >>/etc/ssl/openssl.cnf &&
+    echo "[provider_sect]" >>/etc/ssl/openssl.cnf &&
+    echo "default = default_sect" >>/etc/ssl/openssl.cnf &&
+    echo "legacy = legacy_sect" >>/etc/ssl/openssl.cnf &&
+    echo "" >>/etc/ssl/openssl.cnf &&
+    echo "[default_sect]" >>/etc/ssl/openssl.cnf &&
+    echo "activate = 1" >>/etc/ssl/openssl.cnf &&
+    echo "" >>/etc/ssl/openssl.cnf &&
+    echo "[legacy_sect]" >>/etc/ssl/openssl.cnf &&
+    echo "activate = 1" >>/etc/ssl/openssl.cnf
 
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 
-RUN useradd -m -s /bin/bash developer && \
-    echo 'developer:devpassword' | chpasswd && \
-    echo 'developer ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN useradd -m -s /bin/bash developer &&
+    echo 'developer:devpassword' | chpasswd &&
+    echo 'developer ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
 
 WORKDIR /home/developer
 

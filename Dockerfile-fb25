@@ -1,6 +1,6 @@
 FROM debian:11
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 ARG TARGETARCH
 
 RUN apt update -y && apt install -y \
@@ -8,17 +8,18 @@ RUN apt update -y && apt install -y \
     wget \
     tar \
     vim \
-    sudo
+    sudo \
+    dos2unix apt-utils
 
-RUN apt install -y procps bash    
+RUN apt install -y procps bash
 
 RUN mkdir -p /opt/firebird-installer
-RUN cd /opt/firebird-installer \
-    && wget https://github.com/FirebirdSQL/firebird/releases/download/R2_5_9/FirebirdCS-2.5.9.27139-0.amd64.tar.gz
-RUN cd /opt/firebird-installer \
-    && tar xvf FirebirdCS-2.5.9.27139-0.amd64.tar.gz \
-    && cd /opt/firebird-installer/FirebirdCS-2.5.9.27139-0.amd64 \
-    && echo -e "y\nczyhnp\nczyhnp" | ./install.sh
+RUN cd /opt/firebird-installer &&
+    wget https://github.com/FirebirdSQL/firebird/releases/download/R2_5_9/FirebirdCS-2.5.9.27139-0.amd64.tar.gz
+RUN cd /opt/firebird-installer &&
+    tar xvf FirebirdCS-2.5.9.27139-0.amd64.tar.gz &&
+    cd /opt/firebird-installer/FirebirdCS-2.5.9.27139-0.amd64 &&
+    echo -e "y\nczyhnp\nczyhnp" | ./install.sh
 
 RUN ln -s /opt/firebird /usr/lib/firebird
 
@@ -31,5 +32,3 @@ RUN /opt/firebird/bin/isql -input /tmp/create-fb-sample-database.sql -user SYSDB
 EXPOSE 3050
 
 CMD ["/opt/firebird/bin/fbguard"]
-
-
