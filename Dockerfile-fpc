@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /opt/downloads
 
-RUN ARCH_DEB_URL="https://github.com/coder/code-server/releases/download/v4.100.2/code-server_4.100.2_${TARGETARCH}.deb" && \
+RUN ARCH_DEB_URL="https://github.com/coder/code-server/releases/download/v4.99.4/code-server_4.99.4_${TARGETARCH}.deb" && \
     echo "Downloading $ARCH_DEB_URL" && \
     curl -fsSL "$ARCH_DEB_URL" -o /opt/downloads/code-server.deb
 
