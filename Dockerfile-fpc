@@ -93,6 +93,9 @@ WORKDIR /home/developer
 
 EXPOSE 8080
 
+COPY entry-point.sh /tmp/entry-point.sh
+RUN dos2unix /tmp/entry-point.sh && chmod +x /tmp/entry-point.sh
+
 USER developer
 
 RUN mkdir -p .config/code-server
@@ -100,7 +103,5 @@ RUN chmod -R 777 .config
 
 COPY .env /usr/local/bin/.env
 
-COPY entry-point.sh /usr/local/bin/entry-point.sh
-RUN sudo chmod +x /usr/local/bin/entry-point.sh
 
-ENTRYPOINT ["/usr/local/bin/entry-point.sh"]
+ENTRYPOINT ["/tmp/entry-point.sh"]

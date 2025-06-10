@@ -3,7 +3,7 @@ set -e
 
 cd "$(dirname "$0")"
 
-dos2unix -n .env /tmp/.env
+dos2unix -n /usr/local/bin/.env /tmp/.env
 
 # Load .env file
 if [ -f /tmp/.env ]; then
