@@ -17,4 +17,4 @@ dc=`which docker-compose`
 if [ -z "$dc" ]; then
   dc="docker compose"
 fi
-$dc -f docker-compose.yml $@
+"$dc" -f docker-compose.yml $@
