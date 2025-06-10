@@ -1,0 +1,4 @@
+*.sh text eol=lf
+*.env text eol=lf
+Dockerfile* eol=lf
+docker-compose.* eol=lf
