@@ -11,10 +11,15 @@ services:
       - 8.8.4.4
       - 1.1.1.1
     container_name: fpc-vscodium
-    restart: on-failure:3
+    restart: always
     ports:
       - "8123:8080"
       - "8321:8321"
+      - "8322:8322"
+      - "8323:8323"
+      - "8324:8324"
+      - "8325:8325"
+      - "8326:8326"
     volumes:
       - ./Projects:/home/developer/Projects
       - ./config/vscodium:/home/developer/.config
