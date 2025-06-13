@@ -84,6 +84,8 @@ RUN echo "openssl_conf = openssl_init" >>/etc/ssl/openssl.cnf && \
 
 # RUN rm -rf /var/lib/apt/lists/*
 
+RUN apt-get install -y lsof
+
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 
 RUN useradd -m -s /bin/bash developer && \
