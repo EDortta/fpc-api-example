@@ -6,10 +6,13 @@ ARG TARGETARCH
 # RUN echo "185.125.190.83    security.ubuntu.com" >> /etc/hosts
 # RUN echo "20.201.28.151     github.com" >> /etc/hosts
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -y && apt-get install -y \
     wget sudo git curl unzip \
     fp-compiler fpc-source \
     libpq-dev libmysqlclient-dev firebird-dev
+
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/p/python3.10/libpython3.10-minimal_3.10.12-1~22.04.10_amd64.deb
+RUN dpkg -i libpython3.10-minimal_3.10.12-1~22.04.10_amd64.deb
 
 RUN apt-get install -y \
     postgresql-client \
