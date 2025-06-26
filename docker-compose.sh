@@ -20,4 +20,8 @@ if [ -z "$dc" ]; then
   dcc="compose"
 fi
 
+if uname -a | grep -q MINGW64_NT; then
+  dc="\"$dc\""
+fi
+
 "$dc" "$dcc" -f docker-compose.yml $@
