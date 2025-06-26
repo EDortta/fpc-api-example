@@ -13,8 +13,11 @@ else
   export OS_PLATFORM="linux/amd64"
 fi
 
+dcc=""
 dc=`which docker-compose`
 if [ -z "$dc" ]; then
-  dc="docker compose"
+  dc="docker"
+  dcc="compose"
 fi
-$dc -f docker-compose.yml $@
+
+"$dc" "$dcc" -f docker-compose.yml $@
