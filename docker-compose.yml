@@ -33,7 +33,7 @@ services:
     environment:
       - DEBIAN_FRONTEND=noninteractive
   adminer:
-    image: woahbase/alpine-adminer:x86_64
+    image: adminer:latest
     container_name: adminer
     dns:
       - 8.8.8.8
