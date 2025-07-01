@@ -12,16 +12,3 @@ else
   export TARGETARCH="amd64"
   export OS_PLATFORM="linux/amd64"
 fi
-
-dcc=""
-dc=`which docker-compose`
-if [ -z "$dc" ]; then
-  dc="docker"
-  dcc="compose"
-fi
-
-if uname -a | grep -q MINGW64_NT; then
-  dc="\"$dc\""
-fi
-
-"$dc" "$dcc" -f docker-compose.yml $@
